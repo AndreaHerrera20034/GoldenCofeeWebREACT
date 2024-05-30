@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+</head>
+<body>
+    <h2>Registro de Usuario</h2>
+    <form id="registroForm">
+        <label for="username">Nombre de Usuario:</label> <br>
+        <input type="text" id="username" name="username" required><br>
+        <br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br>
+        <br>
+        <label for="password">Contraseña:</label><br>
+        <input type="password" id="password" name="password" required><br>
+        <br>
+        <button type="submit">Registrarse</button>
+    </form>
+
+    <script>
+        const registroForm = document.getElementById('registroForm');
+
+        registroForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(registroForm);
+            const formDataJSON = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('http://localhost:3000/usuarios', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formDataJSON)
+                });
+
+                const data = await response.json();
+                console.log(data);
+            } catch (error) {
+                console.error('Error al registrar usuario:', error);
+            }
+        });
+    </script>
+</body>
+</html>
